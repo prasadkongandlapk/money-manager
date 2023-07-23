@@ -1,0 +1,10 @@
+li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.aaaa {
+  height: 20px;
+  width: 20px;
+}
