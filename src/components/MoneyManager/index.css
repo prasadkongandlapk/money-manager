@@ -82,8 +82,12 @@ form {
 .tititit {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  padding-right: 80px;
   font-weight: bold;
   color: #475569;
+  padding-left: 50px;
+  font-size: 15px;
+}
+
+.pp {
+  padding-right: 42px;
 }
