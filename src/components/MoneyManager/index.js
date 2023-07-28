@@ -20,9 +20,9 @@ const initialTransactionsList = []
 
 class MoneyManager extends Component {
   state = {
-    balance: '',
-    income: '',
-    expenses: '',
+    balance: 0,
+    income: 0,
+    expenses: 0,
     title: '',
     amount: '',
     type: 'INCOME',
@@ -89,23 +89,23 @@ class MoneyManager extends Component {
   }
 
   onDelete = id => {
-    const {income, balance, expenses, amount, selectedType} = this.state
+    const {income, balance, expenses, amount, type} = this.state
+
     this.setState(prevState => ({
-      transactionsList: prevState.transactionsList.map(eachOne => {
-        if (eachOne.id !== id) {
-          return eachOne
-        }
-        if (eachOne.id === id && selectedType === 'Income') {
+      transactionsList: prevState.transactionsList.filter(eachOne => {
+        if (eachOne.id === id && type === 'INCOME') {
           this.setState({
             income: prevState.income - amount,
             balance: prevState.balance - amount,
           })
-        } else if (eachOne.id === id && selectedType === 'Expenses') {
+        }
+        if (eachOne.id === id && type === 'EXPENSES') {
           this.setState({
             expenses: prevState.expenses - amount,
             balance: prevState.balance - amount,
           })
         }
+        return eachOne.id !== id
       }),
     }))
   }
