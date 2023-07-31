@@ -1,6 +1,5 @@
 import {Component} from 'react'
 import {v4 as v4uuid} from 'uuid'
-
 import './index.css'
 import MoneyDetails from '../MoneyDetails'
 import TransactionItem from '../TransactionItem'
@@ -16,8 +15,6 @@ const transactionTypeOptions = [
   },
 ]
 
-const initialTransactionsList = []
-
 class MoneyManager extends Component {
   state = {
     balance: 0,
@@ -25,8 +22,7 @@ class MoneyManager extends Component {
     expenses: 0,
     title: '',
     amount: '',
-    type: 'INCOME',
-    transactionsList: initialTransactionsList,
+    transactionsList: [],
     selectedType: transactionTypeOptions[0].displayText,
   }
 
@@ -39,70 +35,66 @@ class MoneyManager extends Component {
   }
 
   onClickAddBtn = event => {
+    event.preventDefault()
+
     const {
       title,
       amount,
       income,
       balance,
       expenses,
-      type,
       transactionsList,
       selectedType,
     } = this.state
-    event.preventDefault()
     if (title.length > 0 && amount.length > 0) {
       const newTransaction = {
         id: v4uuid(),
         title,
         amount,
-        type,
         income,
         balance,
         expenses,
+        selectedType,
       }
 
       this.setState(prevState => ({
-        transactionsList: [...transactionsList, newTransaction],
+        transactionsList: [...prevState.transactionsList, newTransaction],
         title: '',
         amount: '',
-        balance: prevState.balance + amount,
+        balance: prevState.balance + parseInt(amount),
+        selectedType,
       }))
 
       if (selectedType === 'Income') {
         this.setState(prevState => ({
-          income: prevState.income + amount,
-          type: 'INCOME',
+          income: prevState.income + parseInt(amount),
         }))
       } else if (selectedType === 'Expenses') {
         this.setState(prevState => ({
-          expenses: prevState.expenses + amount,
-          type: 'EXPENSES',
+          expenses: prevState.expenses + parseInt(amount),
         }))
       }
     }
   }
 
   onSelectType = event => {
-    const {income, amount, selectedType} = this.state
-
     this.setState({selectedType: event.target.value})
   }
 
   onDelete = id => {
-    const {income, balance, expenses, amount, type} = this.state
+    const {income, balance, expenses, selectedType, amount} = this.state
 
     this.setState(prevState => ({
       transactionsList: prevState.transactionsList.filter(eachOne => {
-        if (eachOne.id === id && type === 'INCOME') {
+        if (eachOne.id === id && selectedType === 'Income') {
           this.setState({
-            income: prevState.income - amount,
-            balance: prevState.balance - amount,
+            income: prevState.income - parseInt(amount),
+            balance: prevState.balance - parseInt(amount),
           })
-        }
-        if (eachOne.id === id && type === 'EXPENSES') {
+        } else if (eachOne.id === id && selectedType === 'Expenses') {
           this.setState({
-            expenses: prevState.expenses - amount,
-            balance: prevState.balance - amount,
+            expenses: prevState.expenses - parseInt(amount),
+            balance: prevState.balance - parseInt(amount),
           })
         }
         return eachOne.id !== id
@@ -126,7 +118,7 @@ class MoneyManager extends Component {
         <div className="person-details">
           <h1>Hi, Richard</h1>
           <p>
-            Welcome back to <span>Money Manager</span>
+            Welcome back to your <span>Money Manager</span>
           </p>
         </div>
         <ul>
@@ -142,28 +134,29 @@ class MoneyManager extends Component {
                 value={title}
                 placeholder="Title"
                 type="text"
-                name="title"
+                id="title"
               />
             </div>
             <div className="label">
               <label htmlFor="amount">AMOUNT</label>
-              <textarea
+              <input
                 value={amount}
                 onChange={this.onChangetext}
                 placeholder="Amount"
-                type="number"
-                name="amount"
+                id="amount"
               />
             </div>
             <div className="label">
               <label htmlFor="sss">TYPE</label>
               <select
-                onClick={this.onSelectType}
+                onChange={this.onSelectType}
                 placeholder="Amount"
-                name="sss"
+                id="sss"
               >
                 {transactionTypeOptions.map(eachoption => (
-                  <option>{eachoption.displayText}</option>
+                  <option value={eachoption.optionId}>
+                    {eachoption.displayText}
+                  </option>
                 ))}
               </select>
             </div>

@@ -2,12 +2,13 @@ import './index.css'
 
 const TransactionItem = props => {
   const {details, onDelete} = props
-  const {id, title, amount, type} = details
+  const {id, title, selectedType, amount} = details
 
   const onClickDetele = () => {
     onDelete(id)
   }
 
+  const type = selectedType === 'Income' ? 'INCOME' : 'EXPENSES'
   return (
     <li>
       <div className="result-items-order">
