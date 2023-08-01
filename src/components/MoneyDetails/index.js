@@ -4,7 +4,7 @@ const MoneyDetails = props => {
   const {balance, income, expenses} = props
 
   return (
-    <li className="money-card">
+    <div className="money-card">
       <div className="balance">
         <div>
           <img
@@ -47,7 +47,7 @@ const MoneyDetails = props => {
           <p data-testid="expensesAmount">Rs {expenses}</p>
         </div>
       </div>
-    </li>
+    </div>
   )
 }
 

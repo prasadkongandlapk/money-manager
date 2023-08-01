@@ -121,9 +121,9 @@ class MoneyManager extends Component {
             Welcome back to your <span>Money Manager</span>
           </p>
         </div>
-        <ul>
+        <div className="m-details">
           <MoneyDetails balance={balance} income={income} expenses={expenses} />
-        </ul>
+        </div>
         <div className="form-item-card">
           <form onSubmit={this.onClickAddBtn}>
             <h1>Add Transaction</h1>
@@ -154,7 +154,7 @@ class MoneyManager extends Component {
                 id="sss"
               >
                 {transactionTypeOptions.map(eachoption => (
-                  <option value={eachoption.optionId}>
+                  <option value={eachoption.optionId} key={eachoption.optionId}>
                     {eachoption.displayText}
                   </option>
                 ))}

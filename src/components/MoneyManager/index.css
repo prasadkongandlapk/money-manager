@@ -58,7 +58,10 @@ form {
   padding: 6px;
   width: 70px;
 }
-
+.m-details {
+  padding: 10px;
+  margin-left: 20px;
+}
 .form-item-card {
   display: flex;
   flex-direction: row;
