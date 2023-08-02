@@ -23,7 +23,7 @@ class MoneyManager extends Component {
     title: '',
     amount: '',
     transactionsList: [],
-    selectedType: transactionTypeOptions[0].displayText,
+    selectedType: transactionTypeOptions[0].optionId,
   }
 
   onChangeInput = event => {
@@ -65,11 +65,11 @@ class MoneyManager extends Component {
         selectedType,
       }))
 
-      if (selectedType === 'Income') {
+      if (selectedType === 'INCOME') {
         this.setState(prevState => ({
           income: prevState.income + parseInt(amount),
         }))
-      } else if (selectedType === 'Expenses') {
+      } else if (selectedType === 'EXPENSES') {
         this.setState(prevState => ({
           expenses: prevState.expenses + parseInt(amount),
         }))
@@ -86,15 +86,15 @@ class MoneyManager extends Component {
 
     this.setState(prevState => ({
       transactionsList: prevState.transactionsList.filter(eachOne => {
-        if (eachOne.id === id && selectedType === 'Income') {
+        if (eachOne.id === id && selectedType === 'INCOME') {
           this.setState({
-            income: prevState.income - parseInt(amount),
-            balance: prevState.balance - parseInt(amount),
+            income: prevState.income - parseInt(eachOne.amount),
+            balance: prevState.balance - parseInt(eachOne.amount),
           })
-        } else if (eachOne.id === id && selectedType === 'Expenses') {
+        } else if (eachOne.id === id && selectedType === 'EXPENSES') {
           this.setState({
-            expenses: prevState.expenses - parseInt(amount),
-            balance: prevState.balance - parseInt(amount),
+            expenses: prevState.expenses - parseInt(eachOne.amount),
+            balance: prevState.balance - parseInt(eachOne.amount),
           })
         }
         return eachOne.id !== id
@@ -152,6 +152,7 @@ class MoneyManager extends Component {
                 onChange={this.onSelectType}
                 placeholder="Amount"
                 id="sss"
+                value={selectedType}
               >
                 {transactionTypeOptions.map(eachoption => (
                   <option value={eachoption.optionId} key={eachoption.optionId}>
