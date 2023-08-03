@@ -56,15 +56,6 @@ class MoneyManager extends Component {
         expenses,
         selectedType,
       }
-
-      this.setState(prevState => ({
-        transactionsList: [...prevState.transactionsList, newTransaction],
-        title: '',
-        amount: '',
-        balance: prevState.balance + parseInt(amount),
-        selectedType,
-      }))
-
       if (selectedType === 'INCOME') {
         this.setState(prevState => ({
           income: prevState.income + parseInt(amount),
@@ -74,6 +65,12 @@ class MoneyManager extends Component {
           expenses: prevState.expenses + parseInt(amount),
         }))
       }
+      this.setState(prevState => ({
+        transactionsList: [...prevState.transactionsList, newTransaction],
+        title: '',
+        amount: '',
+        balance: prevState.balance + parseInt(amount),
+      }))
     }
   }
 
@@ -86,12 +83,12 @@ class MoneyManager extends Component {
 
     this.setState(prevState => ({
       transactionsList: prevState.transactionsList.filter(eachOne => {
-        if (eachOne.id === id && selectedType === 'INCOME') {
+        if (eachOne.id === id && eachOne.selectedType === 'INCOME') {
           this.setState({
             income: prevState.income - parseInt(eachOne.amount),
             balance: prevState.balance - parseInt(eachOne.amount),
           })
-        } else if (eachOne.id === id && selectedType === 'EXPENSES') {
+        } else if (eachOne.id === id && eachOne.selectedType === 'EXPENSES') {
           this.setState({
             expenses: prevState.expenses - parseInt(eachOne.amount),
             balance: prevState.balance - parseInt(eachOne.amount),

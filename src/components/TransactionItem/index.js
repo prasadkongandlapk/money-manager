@@ -8,12 +8,13 @@ const TransactionItem = props => {
     onDelete(id)
   }
 
+  const type = selectedType === 'INCOME' ? 'Income' : 'Expenses'
   return (
     <li>
       <div className="result-items-order">
         <p className="result-item-a">{title}</p>
         <p className="result-item-a">Rs {amount}</p>
-        <p className="result-item">{selectedType}</p>
+        <p className="result-item">{type}</p>
         <button
           onClick={onClickDetele}
           data-testid="delete"
